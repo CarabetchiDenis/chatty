@@ -21,17 +21,16 @@ $message = '';
 
 if(isset($_POST['valider']))
 {
-    {
-       $query= "INSERT INTO users (user,msg) 
-       VALUES('".$user."','".$msg."') ";
-       $data=mysqli_query($dbc,$query); 
-       if ($data === TRUE) {
-      
-        } else {
-         echo "Error: " . $query . "<br>" . $dbc->error;
-        }
-    }
-
+  {
+      $query= "INSERT INTO users (user,msg) 
+      VALUES('".$user."','".$msg."') ";
+      $data=mysqli_query($dbc,$query); 
+      if ($data === TRUE) {
+    
+      } else {
+        echo "Error: " . $query . "<br>" . $dbc->error;
+      }
+  }
 }
 
 ?>
@@ -47,8 +46,8 @@ if(isset($_POST['valider']))
 <script>
   function show_func(){
  
-   var element = document.getElementById("blalal");
-    element.scrollTop = element.scrollHeight;
+  var element = document.getElementById("");
+  element.scrollTop = element.scrollHeight;
   
  }
 
@@ -72,34 +71,31 @@ if(isset($_POST['valider']))
     
     ?>
 
-    <?php echo $row['msg']; ?></span> <br/>
-    <?php echo $row['user']; ?>,1
+    <?php echo $row['msg']; ?> <br/>
+    <?php echo $row['user']; ?>
    
    <br/><br/>
 
 <?php
-    }
-    else
-    {
-    if($row['user']!=$first['user'])
-    {
+  }
+  else
+  {
+  if($row['user']!=$first['user'])
+  {
 ?>
     
-    <?php echo $row['msg']; ?><br>
-    <?php echo $row['user']; ?>,
+  <?php echo $row['msg']; ?><br>
+  <?php echo $row['user']; ?>,
 
 <br/><br/>
-
 <?php
-
 }
 else
 {
-
 ?>
 
-    <?php echo $row['msg']; ?>
-    <?php echo $row['user']; ?>,
+  <?php echo $row['msg']; ?>
+  <?php echo $row['user']; ?>,
 
 <br/><br/>
 
@@ -115,25 +111,23 @@ endwhile;
 	
      Messages...	
 	  
-    </div>
+   </div>
 	  <input type="submit" value="refech" name="refrech">
 	
 	  <hr>
 	
-     <div id="order_form" class="form">
+  <div id="order_form" class="form">
 	  <label for="user">Name:</label>
 	  <input type="text" id="user" class="form" name="user">
 	</div><br>
-    <div class="form">
-      <label for="comment">Message:</label>
-      <textarea class="form" id="msg" rows="5" name="msg"></textarea>
-      
-      <p class="bouton"><input type="submit" name="valider" onclick="get_receipt()"
-    value="SEND" checked/>
-    </p>
+  <div class="form">
+    <label for="comment">Message:</label>
+    <textarea class="form" id="msg" rows="5" name="msg"></textarea>
     
-    </div>
-        
+    <p class="bouton"><input type="submit" name="valider" onclick="get_receipt()"
+    value="SEND" checked/>
+    </p>    
+  </div>        
 </div>
 </form>
  </body>
