@@ -1,140 +1,81 @@
 <?php
-/*
+  /*
   * Date: 2021-09-14 
   * Author: denis
   * Description: index page.
- */
+    //1. INPUT
+    //2. VALIDATE INPUT
+    //3. BUSINESS LOGIC (tvq tps)
+    //4. OUTPUT
+  */
 
-require_once('conn.php');
+   require_once "conn.php";
 
-//connect to the database
-$dbc=mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-?>
-<?php
-
-$user= (isset($_POST['user']))?($_POST['user']): '';
-$msg= (isset($_POST['msg']))?($_POST['msg']): '';
-
-$erreur = 'false';
-$message = '';
-
-if(isset($_POST['valider']))
-{
-    {
-       $query= "INSERT INTO users (user,msg) 
-       VALUES('".$user."','".$msg."') ";
-       $data=mysqli_query($dbc,$query); 
-       if ($data === TRUE) {
-      
-        } else {
-         echo "Error: " . $query . "<br>" . $dbc->error;
-        }
-    }
-
-}
-
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <link rel="stylesheet" href="styles.css">
-	
-</head>
-<script>
-  function show_func(){
- 
-   var element = document.getElementById("blalal");
-    element.scrollTop = element.scrollHeight;
-  
- }
-
-</script>
-<form id="myform" action="index.php" method="POST" >
-<?php
-    $host = "localhost";
-    $user = "root";
-    $pass = "";
-    $db_name = "chatty";
-    $con = new mysqli($host, $user, $pass, $db_name);
+   //Initialize the session
+   session_start();
     
-    $query = "SELECT * FROM users";
-    $run = $con->query($query);
-    $i=0;
-    
-    while($row = $run->fetch_array()) :
-    if($i==0){
-    $i=5;
-    $first=$row;
-    
-    ?>
+   $query= "SELECT * FROM users LIMIT 100";
+   $exec = $dbc->query($query); 
 
-    <?php echo $row['msg']; ?></span> <br/>
-    <?php echo $row['user']; ?>,1
+   $sql = "INSERT INTO users (users, msg )
+   VALUES ('?', '?')";
    
-   <br/><br/>
-
-<?php
-    }
-    else
-    {
-    if($row['user']!=$first['user'])
-    {
-?>
-    
-    <?php echo $row['msg']; ?><br>
-    <?php echo $row['user']; ?>,
-
-<br/><br/>
-
-<?php
-
-}
-else
-{
-
+   
+   
+   
+   $output = "";
+   while ($row = $exec->fetch_array()) {
+   $message = $row['msg'];
+   $username = $row['users'];
+   $output .= "<br><div class='message'> " . $username . " <br> " . $message . "</div>";
+   }
+  
 ?>
 
-    <?php echo $row['msg']; ?>
-    <?php echo $row['user']; ?>,
 
-<br/><br/>
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Chatty</title>
+            <link rel="stylesheet" href="styles.css">
+        </head>
+    <body>
+        <div id="chathist">
+            <?php
+               echo $output;
+            ?>
+        </div><br><br>
+        <form>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value=""><br><br>
+            <label for="message">Message</label>
+            <textarea type="text" id="message" rows="5" name="message" value="0"></textarea><br><br>
+            <input type="submit" value="Send" onclick="get_receipt()">
+        </form> <!--
+        <script>
+            function get_receipt() {
 
-<?php
-}
-}
-endwhile;
-?>
+                var loader = <div class="lds-circle"><div></div></div>;
+                document.getElementById("chathist").innerHTML = loader;
 
-<div class="row">
-	
-	<div id="receipt" class="column" style="background:#ca9898;">
-	
-     Messages...	
-	  
-    </div>
-	  <input type="submit" value="refech" name="refrech">
-	
-	  <hr>
-	
-     <div id="order_form" class="form">
-	  <label for="user">Name:</label>
-	  <input type="text" id="user" class="form" name="user">
-	</div><br>
-    <div class="form">
-      <label for="comment">Message:</label>
-      <textarea class="form" id="msg" rows="5" name="msg"></textarea>
-      
-      <p class="bouton"><input type="submit" name="valider" onclick="get_receipt()"
-    value="SEND" checked/>
-    </p>
-    
-    </div>
-        
-</div>
-</form>
- </body>
+                var u_username = document.getElementById("username").value;;
+                var m_message = document.getElementById("message").value;;
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("chathist").innerHTML = this.responseText;
+                    }
+                };
+
+                xhttp.open("POST", "process.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("submit=true&username=" + u_username + "&message=" + m_message);
+                }
+        </script>  -->
+    </body>
 </html>
